@@ -3,14 +3,14 @@ package com.arinahitech.planner;
 import org.springframework.stereotype.Component;
 
 @Component
-public class Goal implements Ambition {
+public class Dream implements Ambition {
 
     private String name;
 
-    public Goal() {
+    public Dream() {
     }
 
-    public Goal(String name) {
+    public Dream(String name) {
         this.name = name;
     }
 
@@ -22,16 +22,16 @@ public class Goal implements Ambition {
         this.name = name;
     }
 
-    public void printGoal() {
+    public void printDream() {
         if (name != null) {
-            System.out.println("My goal is " + name + "!");
+            System.out.println("My dream is " + name + "!");
         } else {
-            System.out.println("There is no goal yet.");
+            System.out.println("There is no dream yet.");
         }
     }
 
     @Override
     public void printAmbition() {
-        printGoal();
+        printDream();
     }
 }

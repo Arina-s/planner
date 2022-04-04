@@ -21,6 +21,8 @@ public class PlannerApplication {
         System.out.println("----- Annotations -----");
         Goal goal = xmlContext.getBean("goal", Goal.class);
         goal.printGoal();
+        AmbitionStore ambitionStore = (AmbitionStore) xmlContext.getBean("ambitionStore");
+        ambitionStore.printAllAmbitions();
 
     }
 
