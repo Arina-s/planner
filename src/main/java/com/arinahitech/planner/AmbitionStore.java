@@ -8,7 +8,7 @@ import org.springframework.stereotype.Component;
 @Component
 @NoArgsConstructor
 public class AmbitionStore {
-    
+
     private Ambition ambition;
 
     @Autowired

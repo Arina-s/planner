@@ -10,8 +10,12 @@
 
   <context:component-scan base-package="com.arinahitech"/>
 
-  <bean id="book" class="com.arinahitech.planner.Book">
+  <bean id="book" scope="prototype" class="com.arinahitech.planner.Book">
     <constructor-arg value="Want Can Should"/>
+  </bean>
+
+  <bean id="rollers" class="com.arinahitech.planner.Rollers">
+    <property name="hours" value="25"/>
   </bean>
 
   <bean id="plannerControl" class="com.arinahitech.planner.PlannerControl">

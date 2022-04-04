@@ -4,12 +4,14 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
 @Component
 @NoArgsConstructor
 @AllArgsConstructor
 @Data
+@Scope("prototype")
 public class Dream implements Ambition {
 
     @Value("Apartment in Dubai")

@@ -15,9 +15,17 @@ public class PlannerApplication {
         System.out.println("----------XML----------");
         ApplicationContext xmlContext = new ClassPathXmlApplicationContext("applicationContext.xml");
         Book book = xmlContext.getBean("book", Book.class);
+        book.setName("Harry");
         System.out.println(book.getItemName());
+        Book book2 = xmlContext.getBean("book", Book.class);
+        System.out.println(book2.getItemName());
         PlannerControl plannerControlXml = xmlContext.getBean("plannerControl", PlannerControl.class);
         plannerControlXml.printPlannedSubject();
+        Rollers rollers = xmlContext.getBean("rollers", Rollers.class);
+        System.out.println(rollers.getHours());
+        rollers.setHours(30);
+        Rollers rollers2 = xmlContext.getBean("rollers", Rollers.class);
+        System.out.println(rollers2.getHours());
 
         System.out.println("----- Annotations -----");
         Goal goal = xmlContext.getBean("goal", Goal.class);

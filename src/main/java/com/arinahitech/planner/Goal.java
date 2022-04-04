@@ -1,8 +1,10 @@
 package com.arinahitech.planner;
 
+import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
 @Component
+@Scope("prototype")
 public class Goal implements Ambition {
 
     private String name;

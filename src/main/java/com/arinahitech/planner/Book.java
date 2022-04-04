@@ -1,5 +1,8 @@
 package com.arinahitech.planner;
 
+import lombok.Data;
+
+@Data
 public class Book implements PlannedSubject {
 
     private String name;
