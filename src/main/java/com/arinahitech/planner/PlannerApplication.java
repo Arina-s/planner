@@ -1,5 +1,6 @@
 package com.arinahitech.planner;
 
+import java.util.Map;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
@@ -23,6 +24,13 @@ public class PlannerApplication {
         goal.printGoal();
         AmbitionStore ambitionStore = (AmbitionStore) xmlContext.getBean("ambitionStore");
         ambitionStore.printAllAmbitions();
+
+        System.out.println("----- All beans -----");
+        String[] beansNames = xmlContext.getBeanDefinitionNames();
+        for (String name: beansNames) {
+            System.out.println(name);
+        }
+        Map<String, Object> beans = xmlContext.getBeansOfType(Object.class);
 
     }
 

@@ -1,18 +1,15 @@
 package com.arinahitech.planner;
 
+import lombok.NoArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 
 @Component
+@NoArgsConstructor
 public class AmbitionStore {
-
-    @Autowired
-    @Qualifier("dream")
+    
     private Ambition ambition;
-
-    public AmbitionStore() {
-    }
 
     @Autowired
     public AmbitionStore(@Qualifier("dream")Ambition ambition) {
