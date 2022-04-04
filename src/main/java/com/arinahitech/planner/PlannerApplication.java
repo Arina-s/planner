@@ -2,6 +2,7 @@ package com.arinahitech.planner;
 
 import java.util.Map;
 import org.springframework.context.ApplicationContext;
+import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 public class PlannerApplication {
@@ -35,10 +36,15 @@ public class PlannerApplication {
 
         System.out.println("----- All beans -----");
         String[] beansNames = xmlContext.getBeanDefinitionNames();
-        for (String name: beansNames) {
+        for (String name : beansNames) {
             System.out.println(name);
         }
         Map<String, Object> beans = xmlContext.getBeansOfType(Object.class);
+
+        System.out.println("--------Java Config-------");
+        ApplicationContext javaContext = new AnnotationConfigApplicationContext(AppConfig.class);
+        BookReview bookReview = (BookReview) javaContext.getBean("bookReview");
+        System.out.println(bookReview.getBook().getItemName());
 
     }
 
