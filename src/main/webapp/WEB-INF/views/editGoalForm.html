@@ -1,11 +1,11 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-  <title>Create goal</title>
+  <title>Edit goal</title>
 </head>
 <body>
 <h2>Create goal</h2>
-<form th:action="@{/addGoal}" th:method="POST" th:object="${goal}">
+<form th:action="@{/editGoal}" th:method="POST" th:object="${goal}">
   <div>
     <input th:field="*{id}" type="hidden">
 
@@ -21,7 +21,7 @@
     <br>
   </div>
   <br>
-  <input type="submit" value="Create">
+  <input type="submit" value="Edit">
 </form>
 </body>
 </html>

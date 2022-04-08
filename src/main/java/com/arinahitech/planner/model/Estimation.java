@@ -7,11 +7,8 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Data
-public class Goal {
+public class Estimation {
 
-    private int id;
-    private String name;
-    private String priority;
-    private Estimation estimation;
+    private String duration;
 
 }

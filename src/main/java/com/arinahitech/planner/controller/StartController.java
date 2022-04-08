@@ -1,12 +1,13 @@
 package com.arinahitech.planner.controller;
 
+import com.arinahitech.planner.model.Estimation;
 import com.arinahitech.planner.model.Goal;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 import java.util.UUID;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -19,10 +20,10 @@ public class StartController {
 
     {
         goals = new ArrayList<>();
-        goals.add(new Goal(++index, "English B2", "high"));
-        goals.add(new Goal(++index, "Move to another country", "high"));
-        goals.add(new Goal(++index, "Become senior", "medium"));
-        goals.add(new Goal(++index, "Read 10 books", "medium"));
+        goals.add(new Goal(++index, "English B2", "high", new Estimation("6 months")));
+        goals.add(new Goal(++index, "Move to another country", "high", new Estimation("1 month")));
+        goals.add(new Goal(++index, "Become senior", "medium", new Estimation("2 years")));
+        goals.add(new Goal(++index, "Read 10 books", "medium", new Estimation("1 year")));
     }
 
     @GetMapping("/")
@@ -38,6 +39,21 @@ public class StartController {
         goal.setId(++index);
         model.addAttribute("goal", goal);
         return "createGoalForm";
+    }
+
+    @GetMapping("/editGoal/{id}")
+    public String editGoal(@PathVariable("id") int id, Model model) {
+        Goal editGoal = goals.stream().filter(goal -> goal.getId() == id).findAny().get();
+        model.addAttribute("goal", editGoal);
+        return "editGoalForm";
+    }
+
+    @PostMapping("/editGoal")
+    public String editGoal(Goal editGoal) {
+        goals.removeIf(goal -> goal.getId() == editGoal.getId());
+        goals.add(editGoal);
+        goals.sort(Comparator.comparing(Goal::getId));
+        return "redirect:/";
     }
 
     @PostMapping("/addGoal")
