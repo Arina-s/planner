@@ -1,0 +1,55 @@
+package com.arinahitech.planner.controller;
+
+import com.arinahitech.planner.model.Goal;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.UUID;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+
+@Controller
+public class StartController {
+
+    private List<Goal> goals;
+    private static int index = 0;
+
+    {
+        goals = new ArrayList<>();
+        goals.add(new Goal(++index, "English B2", "high"));
+        goals.add(new Goal(++index, "Move to another country", "high"));
+        goals.add(new Goal(++index, "Become senior", "medium"));
+        goals.add(new Goal(++index, "Read 10 books", "medium"));
+    }
+
+    @GetMapping("/")
+    public String getGoals(Model model) {
+        model.addAttribute("id", UUID.randomUUID());
+        model.addAttribute("goals", goals);
+        return "goalsList";
+    }
+
+    @GetMapping("/createGoal")
+    public String createGoal(Model model) {
+        Goal goal = new Goal();
+        goal.setId(++index);
+        model.addAttribute("goal", goal);
+        return "createGoalForm";
+    }
+
+    @PostMapping("/addGoal")
+    public String addGoal(Goal goal) {
+        goals.add(goal);
+        return "redirect:/";
+    }
+
+    @GetMapping("/deleteGoal/{id}")
+    public String deleteGoal(@PathVariable("id") int id) {
+        goals.removeIf(goal -> goal.getId() == id);
+        return "redirect:/";
+    }
+
+}
