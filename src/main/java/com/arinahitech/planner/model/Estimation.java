@@ -10,5 +10,6 @@ import lombok.NoArgsConstructor;
 public class Estimation {
 
     private String duration;
+    private int complexity;
 
 }

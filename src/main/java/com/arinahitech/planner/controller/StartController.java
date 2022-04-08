@@ -8,6 +8,7 @@ import java.util.List;
 import java.util.UUID;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -20,10 +21,10 @@ public class StartController {
 
     {
         goals = new ArrayList<>();
-        goals.add(new Goal(++index, "English B2", "high", new Estimation("6 months")));
-        goals.add(new Goal(++index, "Move to another country", "high", new Estimation("1 month")));
-        goals.add(new Goal(++index, "Become senior", "medium", new Estimation("2 years")));
-        goals.add(new Goal(++index, "Read 10 books", "medium", new Estimation("1 year")));
+        goals.add(new Goal(++index, "English B2", "high", new Estimation("6 months", 8)));
+        goals.add(new Goal(++index, "Move to another country", "high", new Estimation("1 month", 4)));
+        goals.add(new Goal(++index, "Become senior", "medium", new Estimation("2 years", 8)));
+        goals.add(new Goal(++index, "Read 10 books", "medium", new Estimation("1 year", 7)));
     }
 
     @GetMapping("/")
@@ -49,7 +50,10 @@ public class StartController {
     }
 
     @PostMapping("/editGoal")
-    public String editGoal(Goal editGoal) {
+    public String editGoal(Goal editGoal, BindingResult bindingResult) {
+        if (bindingResult.hasErrors()) {
+            return "editGoalForm";
+        }
         goals.removeIf(goal -> goal.getId() == editGoal.getId());
         goals.add(editGoal);
         goals.sort(Comparator.comparing(Goal::getId));
@@ -57,7 +61,10 @@ public class StartController {
     }
 
     @PostMapping("/addGoal")
-    public String addGoal(Goal goal) {
+    public String addGoal(Goal goal, BindingResult bindingResult) {
+        if (bindingResult.hasErrors()) {
+            return "createGoalForm";
+        }
         goals.add(goal);
         return "redirect:/";
     }

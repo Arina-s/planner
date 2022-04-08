@@ -13,6 +13,7 @@
       <td>name</td>
       <td>priority</td>
       <td>duration</td>
+      <td>complexity</td>
       <td>action</td>
     </tr>
   </thead>
@@ -22,6 +23,7 @@
       <td th:text="${goal.name}"></td>
       <td th:text="${goal.priority}"></td>
       <td th:text="${goal.estimation.duration}"></td>
+      <td th:text="${goal.estimation.complexity}"></td>
       <td>
         <a th:href="@{'/deleteGoal/' + ${goal.id}}"><button>Delete</button></a> <br/>
         <a th:href="@{'/editGoal/' + ${goal.id}}"><button>Edit</button></a> <br/>

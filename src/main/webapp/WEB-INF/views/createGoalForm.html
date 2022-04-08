@@ -19,6 +19,10 @@
     <label for="duration">Duration: </label>
     <input id="duration" type="text" th:field="*{estimation.duration}">
     <br>
+    <label for="complexity">Complexity: </label>
+    <input id="complexity" type="text" th:field="*{estimation.complexity}">
+    <span th:if="${#fields.hasErrors('estimation.complexity')}" th:errors="*{estimation.complexity}"></span>
+    <br>
   </div>
   <br>
   <input type="submit" value="Create">
