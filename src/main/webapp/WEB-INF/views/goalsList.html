@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <title>Goals list</title>
+</head>
+<body>
+<h1>Welcome to our planner!</h1>
+<table border="1" cellpadding="10">
+  <thead>
+    <tr>
+      <th>id</th>
+      <th>name</th>
+      <th>priority</th>
+      <th>duration</th>
+      <th>complexity</th>
+      <th>action</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr th:each="goal : ${goals}">
+      <td th:text="${goal.id}"></td>
+      <td th:text="${goal.name}"></td>
+      <td th:text="${goal.priority}"></td>
+      <td th:text="${goal.estimation.duration}"></td>
+      <td th:text="${goal.estimation.complexity}"></td>
+      <td>
+        <a th:href="@{'/deleteGoal/' + ${goal.id}}"><button>Delete</button></a> <br/>
+        <a th:href="@{'/editGoal/' + ${goal.id}}"><button>Edit</button></a> <br/>
+      </td>
+    </tr>
+  </tbody>
+</table>
+<a href="/createGoal"><button>Create goal</button></a>
+</body>
+</html>

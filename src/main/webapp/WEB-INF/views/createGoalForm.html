@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <title>Create goal</title>
+</head>
+<body>
+<h2>Create goal</h2>
+<form th:action="@{/addGoal}" th:method="POST" th:object="${goal}">
+  <div>
+    <input th:field="*{id}" type="hidden">
+
+    <label for="name">Name: </label>
+    <input id="name" type="text" th:field="*{name}">
+    <br>
+    <br>
+    <label for="priority">Priority: </label>
+    <input id="priority" type="text" th:field="*{priority}">
+    <br>
+    <label for="duration">Duration: </label>
+    <input id="duration" type="text" th:field="*{estimation.duration}">
+    <br>
+    <label for="complexity">Complexity: </label>
+    <input id="complexity" type="text" th:field="*{estimation.complexity}">
+    <span th:if="${#fields.hasErrors('estimation.complexity')}" th:errors="*{estimation.complexity}"></span>
+    <br>
+  </div>
+  <br>
+  <input type="submit" value="Create">
+</form>
+</body>
+</html>
