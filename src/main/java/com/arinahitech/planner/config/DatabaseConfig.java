@@ -9,7 +9,7 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 public class DatabaseConfig {
 
-    private static final String URL = "jdbc:postgresql://localhost:5433/planner";
+    private static final String URL = "jdbc:postgresql://localhost:5433/planner-java-jdbc";
     private static final String USERNAME = "postgres";
     private static final String PASSWORD = "123";
 
