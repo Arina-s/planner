@@ -17,7 +17,7 @@ import org.springframework.stereotype.Repository;
 public class GoalDaoImpl implements GoalDao {
 
     private static final String SQL_GET_ALL_GOALS =
-        "SELECT * FROM goals LEFT JOIN estimation ON goals.goal_id = estimation.goal_id";
+        "SELECT * FROM goals LEFT JOIN estimations ON goals.goal_id = estimations.goal_id";
 
     @Autowired
     private Connection connection;
@@ -46,8 +46,24 @@ public class GoalDaoImpl implements GoalDao {
 
     @Override
     public Goal getById(int id) {
-        // to do
-        return new Goal();
+        Goal goal = new Goal();
+        try (PreparedStatement statement = connection.prepareStatement(
+            "SELECT * FROM goals LEFT JOIN estimations ON goals.goal_id = estimations.goal_id WHERE goals.goal_id = ?")) {
+            statement.setInt(1, id);
+            ResultSet resultSet = statement.executeQuery();
+            if (resultSet.next()) {
+                goal.setId(resultSet.getInt("goal_id"));
+                goal.setName(resultSet.getString("name"));
+                goal.setPriority(resultSet.getString("priority"));
+                Estimation estimation = new Estimation();
+                estimation.setComplexity(resultSet.getInt("complexity"));
+                estimation.setDuration(resultSet.getString("duration"));
+                goal.setEstimation(estimation);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return goal;
     }
 
     @Override
@@ -62,7 +78,7 @@ public class GoalDaoImpl implements GoalDao {
                 if (resultSet.next()) {
                     int id = resultSet.getInt(1);
                     try (PreparedStatement statement1 = connection.prepareStatement(
-                        "INSERT INTO estimation (duration, complexity, goal_id) VALUES (?, ?, ?)"
+                        "INSERT INTO estimations (duration, complexity, goal_id) VALUES (?, ?, ?)"
                     )) {
                         statement1.setString(1, goal.getEstimation().getDuration());
                         statement1.setInt(2, goal.getEstimation().getComplexity());
@@ -73,7 +89,6 @@ public class GoalDaoImpl implements GoalDao {
                     }
                 }
             }
-
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -81,11 +96,38 @@ public class GoalDaoImpl implements GoalDao {
 
     @Override
     public void deleteById(int id) {
-        // to do
+        deleteById(id, "DELETE FROM goals WHERE goal_id = ?");
+        deleteById(id, "DELETE FROM estimations WHERE goal_id = ?");
+    }
+
+    private void deleteById(int id, String query) {
+        try (PreparedStatement statement = connection.prepareStatement(query)) {
+            statement.setInt(1, id);
+            statement.executeQuery();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
     public void edit(Goal goal) {
-        // to do
+        try (PreparedStatement statement = connection.prepareStatement(
+            "UPDATE goals SET name = ?, priority = ? WHERE goal_id = ?")) {
+            statement.setString(1, goal.getName());
+            statement.setString(2, goal.getPriority());
+            statement.setInt(3, goal.getId());
+            statement.executeUpdate();
+            try (PreparedStatement statement1 = connection.prepareStatement(
+                "UPDATE estimations SET duration = ?, complexity = ? WHERE goal_id = ?")) {
+                statement1.setString(1, goal.getEstimation().getDuration());
+                statement1.setInt(2, goal.getEstimation().getComplexity());
+                statement1.setInt(3, goal.getId());
+                statement1.executeUpdate();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 }
