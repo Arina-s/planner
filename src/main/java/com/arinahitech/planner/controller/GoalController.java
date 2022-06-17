@@ -26,7 +26,7 @@ public class GoalController {
 
     @GetMapping("/createGoal")
     public String createGoal(Model model) {
-        model.addAttribute("goal", goalService.getNewGoal());
+        model.addAttribute("goal", new Goal());
         return "createGoalForm";
     }
 

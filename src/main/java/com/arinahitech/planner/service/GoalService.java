@@ -7,8 +7,6 @@ public interface GoalService {
 
     List<Goal> getAll();
 
-    Goal getNewGoal();
-
     Goal getById(int id);
 
     void save(Goal goal);

@@ -1,0 +1,13 @@
+CREATE TABLE goals (
+    goal_id serial PRIMARY KEY,
+    name VARCHAR(255),
+    priority VARCHAR(20)
+);
+
+CREATE TABLE estimation (
+    id serial PRIMARY KEY,
+    duration VARCHAR(255),
+    complexity INT,
+	  goal_id INT,
+    CONSTRAINT fk_goal FOREIGN KEY (goal_id) REFERENCES goals (goal_id) ON DELETE CASCADE
+);
