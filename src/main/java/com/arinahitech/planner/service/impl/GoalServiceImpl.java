@@ -21,11 +21,6 @@ public class GoalServiceImpl implements GoalService {
     }
 
     @Override
-    public Goal getNewGoal() {
-        return goalDao.getNewGoal();
-    }
-
-    @Override
     public Goal getById(int id) {
         return goalDao.getById(id);
     }
