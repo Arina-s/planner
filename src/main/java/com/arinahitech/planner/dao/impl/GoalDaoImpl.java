@@ -41,9 +41,21 @@ public class GoalDaoImpl implements GoalDao {
 
     @Override
     public Goal getById(int id) {
-        Goal goal = new Goal();
-        // TO DO
-        return goal;
+        return jdbcTemplate.queryForObject(
+            "SELECT * FROM goals LEFT JOIN estimations ON goals.goal_id = estimations.goal_id WHERE goals.goal_id = ?",
+            (resultSet, rowNum) -> {
+                Goal goal = new Goal();
+                goal.setId(resultSet.getInt("goal_id"));
+                goal.setName(resultSet.getString("name"));
+                goal.setPriority(resultSet.getString("priority"));
+                Estimation estimation = new Estimation();
+                estimation.setComplexity(resultSet.getInt("complexity"));
+                estimation.setDuration(resultSet.getString("duration"));
+                goal.setEstimation(estimation);
+                return goal;
+            },
+            new Object[]{id}
+        );
     }
 
     @Override
@@ -73,6 +85,15 @@ public class GoalDaoImpl implements GoalDao {
 
     @Override
     public void edit(Goal goal) {
-//      // TO DO
+        jdbcTemplate.update("UPDATE goals SET name = ?, priority = ? WHERE goal_id = ?",
+            goal.getName(),
+            goal.getPriority(),
+            goal.getId()
+        );
+        jdbcTemplate.update("UPDATE estimations SET duration = ?, complexity = ? WHERE goal_id = ?",
+            goal.getEstimation().getDuration(),
+            goal.getEstimation().getComplexity(),
+            goal.getId()
+        );
     }
 }
