@@ -3,40 +3,28 @@ package com.arinahitech.planner.dao.impl;
 import com.arinahitech.planner.dao.GoalDao;
 import com.arinahitech.planner.model.Estimation;
 import com.arinahitech.planner.model.Goal;
-import java.sql.PreparedStatement;
-import java.sql.Statement;
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
+import org.hibernate.Session;
+import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.jdbc.support.GeneratedKeyHolder;
-import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
 @Repository
+@Transactional
 public class GoalDaoImpl implements GoalDao {
 
     @Autowired
     private JdbcTemplate jdbcTemplate;
 
+    @Autowired
+    private SessionFactory sessionFactory;
+
     @Override
     public List<Goal> getAll() {
-        List<Goal> goals = new ArrayList<>();
-        return jdbcTemplate.query("SELECT * FROM goals LEFT JOIN estimations ON goals.goal_id = estimations.goal_id",
-            (resultSet, rowNum) -> {
-                Goal goal = new Goal();
-                goal.setId(resultSet.getInt("goal_id"));
-                goal.setName(resultSet.getString("name"));
-                goal.setPriority(resultSet.getString("priority"));
-                Estimation estimation = new Estimation();
-                estimation.setComplexity(resultSet.getInt("complexity"));
-                estimation.setDuration(resultSet.getString("duration"));
-                goal.setEstimation(estimation);
-                goals.add(goal);
-                return goal;
-            }
-        );
+        Session session = sessionFactory.openSession();
+        return session.createQuery("from Goal", Goal.class).list();
     }
 
     @Override
@@ -60,21 +48,8 @@ public class GoalDaoImpl implements GoalDao {
 
     @Override
     public void save(Goal goal) {
-        KeyHolder key = new GeneratedKeyHolder();
-        jdbcTemplate.update(connection -> {
-            PreparedStatement statement = connection.prepareStatement(
-                "INSERT INTO goals (name, priority) VALUES (?, ?)", Statement.RETURN_GENERATED_KEYS);
-            statement.setString(1, goal.getName());
-            statement.setString(2, goal.getPriority());
-            return statement;
-        }, key);
-
-        int id = (int) Objects.requireNonNull(key.getKeys()).get("goal_id");
-        jdbcTemplate.update("INSERT INTO estimations (duration, complexity, goal_id) VALUES (?, ?, ?)",
-            goal.getEstimation().getDuration(),
-            goal.getEstimation().getComplexity(),
-            id
-        );
+        Session session = sessionFactory.getCurrentSession();
+        session.save(goal);
     }
 
     @Override
