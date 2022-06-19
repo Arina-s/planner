@@ -3,6 +3,7 @@ package com.arinahitech.planner.service.impl;
 import com.arinahitech.planner.dao.GoalDao;
 import com.arinahitech.planner.exception.GoalException;
 import com.arinahitech.planner.model.Goal;
+import com.arinahitech.planner.repository.GoalRepository;
 import com.arinahitech.planner.service.GoalService;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -14,6 +15,9 @@ public class GoalServiceImpl implements GoalService {
 
     @Autowired
     private GoalDao goalDao;
+
+    @Autowired
+    private GoalRepository goalRepository;
 
     @Override
     public List<Goal> getAll() {
@@ -49,5 +53,10 @@ public class GoalServiceImpl implements GoalService {
             .filter(goal -> goal.getName().equals(name))
             .collect(Collectors.toList());
         return goalList.isEmpty();
+    }
+
+    @Override
+    public Goal getByPriority(String priority) {
+        return goalRepository.findByPriority(priority);
     }
 }
