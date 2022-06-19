@@ -1,6 +1,5 @@
 package com.arinahitech.planner.service.impl;
 
-import com.arinahitech.planner.dao.GoalDao;
 import com.arinahitech.planner.exception.GoalException;
 import com.arinahitech.planner.model.Goal;
 import com.arinahitech.planner.repository.GoalRepository;
@@ -9,24 +8,23 @@ import java.util.List;
 import java.util.stream.Collectors;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
+@Transactional
 public class GoalServiceImpl implements GoalService {
-
-    @Autowired
-    private GoalDao goalDao;
 
     @Autowired
     private GoalRepository goalRepository;
 
     @Override
     public List<Goal> getAll() {
-        return goalDao.getAll();
+        return goalRepository.findAll();
     }
 
     @Override
     public Goal getById(int id) {
-        return goalDao.getById(id);
+        return goalRepository.findById(id);
     }
 
     @Override
@@ -34,18 +32,18 @@ public class GoalServiceImpl implements GoalService {
         if (!checkGoalExists(goal.getName())) {
             throw new GoalException("The goal with name '" + goal.getName() + "' already exists.");
         } else {
-            goalDao.save(goal);
+            goalRepository.save(goal);
         }
     }
 
     @Override
     public void deleteById(int id) {
-        goalDao.deleteById(id);
+        goalRepository.deleteById(id);
     }
 
     @Override
     public void edit(Goal goal) {
-        goalDao.edit(goal);
+        goalRepository.save(goal);
     }
 
     private boolean checkGoalExists(String name) {
