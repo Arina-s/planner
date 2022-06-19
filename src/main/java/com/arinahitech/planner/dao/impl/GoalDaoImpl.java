@@ -4,6 +4,8 @@ import com.arinahitech.planner.dao.GoalDao;
 import com.arinahitech.planner.model.Estimation;
 import com.arinahitech.planner.model.Goal;
 import java.util.List;
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,10 +23,16 @@ public class GoalDaoImpl implements GoalDao {
     @Autowired
     private SessionFactory sessionFactory;
 
+    @PersistenceContext
+    private EntityManager entityManager;
+
     @Override
     public List<Goal> getAll() {
+        /*
         Session session = sessionFactory.openSession();
         return session.createQuery("from Goal", Goal.class).list();
+        */
+        return entityManager.createQuery("select g from Goal g", Goal.class).getResultList();
     }
 
     @Override
@@ -48,8 +56,11 @@ public class GoalDaoImpl implements GoalDao {
 
     @Override
     public void save(Goal goal) {
+        /*
         Session session = sessionFactory.getCurrentSession();
         session.save(goal);
+         */
+        entityManager.persist(goal);
     }
 
     @Override
