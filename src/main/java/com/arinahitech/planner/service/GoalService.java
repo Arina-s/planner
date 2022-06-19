@@ -15,4 +15,6 @@ public interface GoalService {
 
     void edit(Goal goal);
 
+    Goal getByPriority(String priority);
+
 }
