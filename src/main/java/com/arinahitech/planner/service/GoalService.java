@@ -17,4 +17,7 @@ public interface GoalService {
 
     Goal getByPriority(String priority);
 
+    Goal create(Goal goal);
+
+    void editById(int id, Goal goal);
 }

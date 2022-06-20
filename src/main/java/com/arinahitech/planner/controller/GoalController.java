@@ -1,73 +1,46 @@
 package com.arinahitech.planner.controller;
 
+import static com.arinahitech.planner.constants.ApiConstants.GOAL_PATH;
+
 import com.arinahitech.planner.model.Goal;
 import com.arinahitech.planner.service.GoalService;
+import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.repository.query.Param;
-import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RestController;
 
-@Controller
+@RestController
 public class GoalController {
-
-    private static String redirect = "redirect:/";
 
     @Autowired
     private GoalService goalService;
 
-    @GetMapping("/")
-    public String getGoals(Model model) {
-        model.addAttribute("goals", goalService.getAll());
-        return "goalsList";
+    @GetMapping(GOAL_PATH)
+    public List<Goal> getGoals() {
+        return goalService.getAll();
     }
 
-    @GetMapping("/createGoal")
-    public String createGoal(Model model) {
-        model.addAttribute("goal", new Goal());
-        return "createGoalForm";
+    @PostMapping(GOAL_PATH)
+    public Goal createGoal(@RequestBody Goal goal) {
+        return goalService.create(goal);
     }
 
-    @GetMapping("/editGoal/{id}")
-    public String editGoal(@PathVariable("id") int id, Model model) {
-        model.addAttribute("goal", goalService.getById(id));
-        return "editGoalForm";
-    }
-
-    @PostMapping("/editGoal")
-    public String editGoal(Goal editGoal, BindingResult bindingResult) {
-        if (bindingResult.hasErrors()) {
-            return "editGoalForm";
-        }
-        goalService.edit(editGoal);
-        return redirect;
-    }
-
-    @PostMapping("/addGoal")
-    public String addGoal(Goal goal, BindingResult bindingResult) {
-        if (bindingResult.hasErrors()) {
-            return "createGoalForm";
-        }
-        goalService.save(goal);
-        return redirect;
-    }
-
-    @GetMapping("/deleteGoal/{id}")
-    public String deleteGoal(@PathVariable("id") int id) {
+    @DeleteMapping(GOAL_PATH + "/{id}")
+    public void delete(@PathVariable("id") int id) {
         goalService.deleteById(id);
-        return redirect;
     }
 
-    // @RestController = @Controller + @ResponseBody
-    // Param не может быть с @GetMapping
-    @ResponseBody
-    @PostMapping("/find")
-    public Goal getByPriority(@Param("priority") String priority) {
-        return goalService.getByPriority(priority);
+    @PatchMapping(GOAL_PATH)
+    public void editGoal(@RequestBody Goal goal, BindingResult bindingResult) {
+        if (!bindingResult.hasErrors()) {
+            goalService.edit(goal);
+        }
     }
 
 }

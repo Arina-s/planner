@@ -57,4 +57,14 @@ public class GoalServiceImpl implements GoalService {
     public Goal getByPriority(String priority) {
         return goalRepository.findByPriority(priority);
     }
+
+    @Override
+    public Goal create(Goal goal) {
+        return goalRepository.save(goal);
+    }
+
+    @Override
+    public void editById(int id, Goal goal) {
+
+    }
 }
