@@ -1,4 +1,4 @@
-package com.arinahitech.planner.util;
+package com.arinahitech.planner.config.jwt;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.ExpiredJwtException;

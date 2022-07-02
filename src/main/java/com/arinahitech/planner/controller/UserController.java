@@ -1,8 +1,8 @@
 package com.arinahitech.planner.controller;
 
-import com.arinahitech.planner.model.Role;
 import com.arinahitech.planner.model.User;
 import com.arinahitech.planner.repository.UserRepository;
+import com.arinahitech.planner.service.impl.UserService;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -23,6 +23,9 @@ public class UserController {
     private UserRepository userRepository;
 
     @Autowired
+    private UserService userService;
+
+    @Autowired
     private PasswordEncoder passwordEncoder;
 
     @GetMapping("/find")
@@ -32,9 +35,7 @@ public class UserController {
 
     @PostMapping("/add")
     public User addUser(@RequestBody User user) {
-        user.setRole(Role.ROLE_USER);
-        user.setPassword(passwordEncoder.encode(user.getPassword()));
-        return userRepository.save(user);
+        return userService.saveUser(user);
     }
 
     @PutMapping("/update")
