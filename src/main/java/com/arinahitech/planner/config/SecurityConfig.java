@@ -11,7 +11,7 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 @Configuration
-@EnableWebSecurity
+//@EnableWebSecurity
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Autowired
@@ -26,12 +26,13 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
             .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
             .and()
             .authorizeRequests()
-            .antMatchers("/admin/*").hasRole("ADMIN")
-            .antMatchers("/users/*").hasRole("ADMIN")
-            .antMatchers(HttpMethod.GET,"/api/v0/goal/**").hasAnyRole("USER", "ADMIN")
-            .antMatchers("/api/v0/goal/**").hasRole("ADMIN")
-            .antMatchers("/user/**").hasRole("USER")
-            .antMatchers("/register", "/auth").permitAll()
+//            .antMatchers("/admin/*").hasRole("ADMIN")
+//            .antMatchers("/users/*").hasRole("ADMIN")
+//            .antMatchers(HttpMethod.GET,"/api/v0/goal/**").hasAnyRole("USER", "ADMIN")
+//            .antMatchers("/api/v0/goal/**").hasRole("ADMIN")
+//            .antMatchers("/user/**").hasRole("USER")
+//            .antMatchers("/register", "/auth").permitAll()
+            .antMatchers("/**").permitAll()
             .and()
             .addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class);
     }

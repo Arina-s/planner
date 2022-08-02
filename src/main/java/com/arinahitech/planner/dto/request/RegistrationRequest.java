@@ -1,4 +1,4 @@
-package com.arinahitech.planner.request;
+package com.arinahitech.planner.dto.request;
 
 import javax.validation.constraints.NotEmpty;
 import lombok.Data;

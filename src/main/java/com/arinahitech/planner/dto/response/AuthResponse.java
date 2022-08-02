@@ -1,4 +1,4 @@
-package com.arinahitech.planner.response;
+package com.arinahitech.planner.dto.response;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

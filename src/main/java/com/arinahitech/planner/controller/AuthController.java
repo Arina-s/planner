@@ -2,9 +2,9 @@ package com.arinahitech.planner.controller;
 
 import com.arinahitech.planner.config.jwt.JwtProvider;
 import com.arinahitech.planner.model.User;
-import com.arinahitech.planner.request.AuthRequest;
-import com.arinahitech.planner.request.RegistrationRequest;
-import com.arinahitech.planner.response.AuthResponse;
+import com.arinahitech.planner.dto.request.AuthRequest;
+import com.arinahitech.planner.dto.request.RegistrationRequest;
+import com.arinahitech.planner.dto.response.AuthResponse;
 import com.arinahitech.planner.service.impl.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;

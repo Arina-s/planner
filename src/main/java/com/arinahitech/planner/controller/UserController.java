@@ -3,6 +3,8 @@ package com.arinahitech.planner.controller;
 import com.arinahitech.planner.model.User;
 import com.arinahitech.planner.repository.UserRepository;
 import com.arinahitech.planner.service.impl.UserService;
+import com.arinahitech.planner.dto.request.UserRequest;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -28,13 +30,17 @@ public class UserController {
     @Autowired
     private PasswordEncoder passwordEncoder;
 
+    @Autowired
+    private ObjectMapper mapper;
+
     @GetMapping("/find")
     public List<User> getAllUsers() {
         return userRepository.findAll();
     }
 
     @PostMapping("/add")
-    public User addUser(@RequestBody User user) {
+    public User addUser(@RequestBody UserRequest userRequest) {
+        User user = mapper.convertValue(userRequest, User.class);
         return userService.saveUser(user);
     }
 
